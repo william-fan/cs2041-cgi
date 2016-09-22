@@ -8,14 +8,14 @@ cat <<eof
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>IBrowser IP, Host and User </title>
+<title>IBrowser IP, Host and User Agent</title>
 </head>
 <body>
-This web server is running on IP address: <b>$REMOTE_ADDR</b>
+Your browser is running at IP address: <b>$REMOTE_ADDR</b>
 <p>
-This web server is running on hostname: <b>$host_address</b>
+Your browser is running on hostname: <b>$host_address</b>
 <p>
-This web server is <b>$HTTP_USER_AGENT</b>
+Your browser identifies as: <b>$HTTP_USER_AGENT</b>
 </body>
 </html>
 eof
