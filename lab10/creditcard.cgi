@@ -7,6 +7,8 @@ use CGI::Carp qw/fatalsToBrowser warningsToBrowser/;
 print header, start_html("Credit Card Validation"), "\n";
 warningsToBrowser(1);
 $credit_card = param("credit_card");
+$credit_card =~ s/\</&lt;/g;
+$credit_card =~ s/\>/&gt;/g;
 $close = param("close");
 $valid = 0;
 print start_form, "\n";
