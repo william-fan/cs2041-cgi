@@ -7,9 +7,31 @@ use CGI::Carp qw/fatalsToBrowser warningsToBrowser/;
 print header, start_html("Credit Card Validation"), "\n";
 warningsToBrowser(1);
 $credit_card = param("credit_card");
-if (defined $credit_card) {
-    print validate($credit_card);
+$close = param("close");
+$valid = 0;
+print start_form, "\n";
+print "<h2>Credit Card Validation</h2>\n";
+if (defined $close) {
+    print "Thank you for using the Credit Card Validator.\n";
+} elsif (defined $credit_card) {
+    $string = validate($credit_card);
+    if ($valid == 1) {
+        print "This page checks whether a potential credit card number satisfies the Luhn Formula.<p>\n";
+        print "<b><span style=\"color: red\">$string</span></b><p>";
+        print "Try again:\n", textfield('credit_card'), "\n";
+        print submit(value => Validate)," ", reset(reset => Reset), " ", submit(close => Close), "\n";
+    } else {
+        print "This page checks whether a potential credit card number satisfies the Luhn Formula.<p>\n";
+        print "$string<p>";
+        print "Another card number:\n", textfield(-name=>'credit_card', -value=>'', -override=>1), "\n";
+        print submit(value => Validate)," ", reset(reset => Reset), " ", submit(close => Close), "\n";
+    }
+} else {
+    print "This page checks whether a potential credit card number satisfies the Luhn Formula.<p>\n";
+    print "Enter credit card number:\n", textfield('credit_card'), "\n";
+    print submit(submit => Validate)," ", reset(reset => Reset), " ", submit(close => Close), "\n";
 }
+print end_form, "\n";
 print end_html;
 exit 0;
 
@@ -31,12 +53,14 @@ sub validate {
             $total += $numbers[$count];;
         }
         if ($total % 10 == 0) {
-            print("$_[0] is valid\n");
+            $valid = 0;
+            return "$_[0] is valid\n";
         } else {
-            print("$_[0] is invalid\n");
+            $valid = 1;
+            return "$_[0] is invalid\n";
         }
     } else {
-        print("$_[0] is invalid - does not contain exactly 16 digits\n");
+        $valid = 1;
+        return "$_[0] is invalid - does not contain exactly 16 digits\n";
     }
-
 }
