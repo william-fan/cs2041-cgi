@@ -21,8 +21,14 @@
 }
 
 .guess_number_input {
+	padding-top: 1em;
+    padding-bottom: 1em;
     width: auto;
     border: 2px solid red;
     transition: box-shadow 2s, border 2s;
+}
+
+body {
+	background-color: AliceBlue;
 }
 
